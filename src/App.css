@@ -1,0 +1,196 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "PT Sans", sans-serif;
+
+  --color-purple: rgb(220, 173, 228);
+  --color-purple-darker: rgb(95, 73, 99);
+  --color-green: rgb(56, 197, 20);
+}
+
+main {
+  background-color: #10201f;
+  background-image: url("./background_light.webp");
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+}
+
+form {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  width: 38rem;
+  padding: 1.5rem;
+  background-color: white;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+@media (max-width: 480px) {
+  form {
+    border: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.field {
+  width: 100%;
+  position: relative;
+}
+
+label {
+  position: absolute;
+  top: 1.125rem;
+  left: 0.75rem;
+  color: #ccc;
+  font-size: 1rem;
+}
+
+input:focus + label,
+/* Чтобы label, который визуально притворяется плесхолдером, не перекрывал данные в заполненном поле */
+input:not(:placeholder-shown):not(:focus) + label {
+  top: -25%;
+  font-size: 0.8rem;
+  color: var(--color-green);
+  background-color: white;
+  padding: 0px 4px;
+  transition: 0.3s;
+}
+
+input {
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  padding: 0.75rem;
+  width: 100%;
+  font-size: 1.4rem;
+}
+
+input:hover {
+  outline: 1px solid rgb(0, 0, 0);
+}
+
+input:focus {
+  outline: 2px solid var(--color-green);
+}
+
+input.errorField {
+  border: 1px solid red;
+  color: red;
+  background: url("./icon-error.png");
+  background-repeat: no-repeat;
+  background-position: 98%;
+  background-size: 2rem;
+  padding-right: 3rem;
+}
+
+input.errorField + label {
+  color: red;
+}
+
+.submitButton {
+  margin-top: 1rem;
+  cursor: pointer;
+  width: 100%;
+  height: 2.4rem;
+  color: var(--color-green);
+  border-radius: 4px;
+  background-color: transparent;
+  font-weight: 700;
+  border: 1px solid var(--color-green);
+}
+
+.submitButton:active {
+  color: rgb(93, 34, 104);
+  border-color: rgb(93, 34, 104);
+}
+
+.submitButton:focus {
+  outline: 2px solid var(--color-green);
+}
+
+.fieldErrorText {
+  position: absolute;
+  top: -25%;
+  font-size: 0.8rem;
+  left: 0.75rem;
+  color: red;
+  background-color: white;
+  padding: 0px 4px;
+  transition: 0.3s;
+}
+
+.showPassword {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-green);
+  margin-bottom: 0.5rem;
+  position: absolute;
+  left: 0;
+  bottom: -50%;
+}
+
+.showPassword:hover {
+  text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  main {
+    background-image: url("./background_dark.webp");
+  }
+
+  form {
+    background-color: rgb(20, 32, 54);
+  }
+
+  input:focus + label,
+  input:not(:placeholder-shown):not(:focus) + label {
+    color: var(--color-purple);
+    background-color: rgb(20, 32, 54);
+  }
+
+  input:focus {
+    outline: 2px solid var(--color-purple);
+  }
+
+  .submitButton {
+    color: var(--color-purple);
+    border: 1px solid var(--color-purple);
+  }
+
+  .submitButton:focus {
+    outline: 2px solid var(--color-purple);
+  }
+
+  .showPassword {
+    color: var(--color-purple);
+  }
+
+  input {
+    border-color: var(--color-purple-darker);
+    color: var(--color-purple);
+  }
+
+  h1 {
+    color: var(--color-purple);
+  }
+
+  .fieldErrorText {
+    background-color: rgb(20, 32, 54);
+  }
+}
