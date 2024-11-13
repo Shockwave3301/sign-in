@@ -32,15 +32,6 @@ form {
   border-bottom-right-radius: 20px;
 }
 
-@media (max-width: 480px) {
-  form {
-    border: none;
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-  }
-}
-
 h1 {
   font-size: 1.5rem;
   font-weight: 400;
@@ -49,6 +40,10 @@ h1 {
 .field {
   width: 100%;
   position: relative;
+}
+
+.field:nth-last-child(2) {
+  margin-bottom: 3rem;
 }
 
 label {
@@ -102,7 +97,6 @@ input.errorField + label {
 }
 
 .submitButton {
-  margin-top: 1rem;
   cursor: pointer;
   width: 100%;
   height: 2.4rem;
@@ -139,18 +133,41 @@ input.errorField + label {
   border: none;
   cursor: pointer;
   color: var(--color-green);
-  margin-bottom: 0.5rem;
   position: absolute;
   left: 0;
   bottom: -50%;
+  font-size: 1rem;
+}
+
+.showPassword:focus {
+  text-decoration: underline;
 }
 
 .showPassword:hover {
   text-decoration: underline;
 }
 
+.forgotPassword {
+  position: absolute;
+  right: 0;
+  bottom: -50%;
+  font-size: 1rem;
+  color: var(--color-green);
+  text-decoration: none;
+}
+
+@media (max-width: 620px) {
+  form {
+    border: none;
+    border-radius: 0;
+    justify-content: flex-start;
+    padding-top: 8rem;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   main {
+    background-color: rgb(20, 32, 54);
     background-image: url("./background_dark.webp");
   }
 
@@ -192,5 +209,9 @@ input.errorField + label {
 
   .fieldErrorText {
     background-color: rgb(20, 32, 54);
+  }
+
+  .forgotPassword {
+    color: var(--color-purple);
   }
 }

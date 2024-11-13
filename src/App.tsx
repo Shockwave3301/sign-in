@@ -7,6 +7,7 @@ const App = () => {
   const [isPasswordShown, setIsPasswordShown] = useState<boolean>(false);
 
   const handleSubmit = (e: any): void => {
+    console.log({ e });
     e.preventDefault();
 
     const email = e.target.elements.email.value;
@@ -27,7 +28,7 @@ const App = () => {
       return;
     }
 
-    alert("submit!");
+    alert(`Login attempt.\nLogin: ${email}\nPassword: ${password}`);
   };
 
   const hideEmailError = (): void => setEmailError("");
@@ -39,7 +40,7 @@ const App = () => {
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <h1>Login</h1>
+      <h1>Логин</h1>
       <div className="field">
         <input
           className={emailError && "errorField"}
@@ -51,7 +52,7 @@ const App = () => {
           placeholder=""
           onFocus={hideEmailError}
         />
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">Почта</label>
         <span className="fieldErrorText">{emailError}</span>
       </div>
 
@@ -66,7 +67,7 @@ const App = () => {
           aria-required="true"
           onFocus={hidePasswordError}
         />
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password">Пароль</label>
         <span className="fieldErrorText">{passwordError}</span>
         <button
           type="button"
@@ -75,10 +76,13 @@ const App = () => {
         >
           Показать пароль
         </button>
+        <a href="" className="forgotPassword">
+          Забыли пароль?
+        </a>
       </div>
 
       <button className="submitButton" type="submit">
-        ENTER
+        ВОЙТИ
       </button>
     </form>
   );
