@@ -175,15 +175,6 @@ input.errorField + label {
   text-decoration: none;
 }
 
-@media (max-width: 768px) {
-  form {
-    border: none;
-    border-radius: 0;
-    justify-content: flex-start;
-    padding-top: 8rem;
-  }
-}
-
 @media (prefers-color-scheme: dark) {
   main {
     background-color: var(--color-yankees-blue);
@@ -241,5 +232,43 @@ input.errorField + label {
   .spinner {
     padding: 0.3em;
     filter: invert(1);
+  }
+}
+
+@media (max-width: 992px) {
+  form {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    justify-content: flex-start;
+    padding-top: 8rem;
+  }
+
+  .field,
+  button.submitButton {
+    width: 70%;
+  }
+}
+
+@media (max-width: 420px) {
+  .submitButton {
+    height: 3rem;
+    line-height: 1rem;
+    width: 100%;
+  }
+
+  .submitButton.submitButton.recoveryLetterSendButton {
+    font-size: 0.7rem;
+  }
+
+  .field {
+    width: 100%;
+  }
+}
+
+@media (max-height: 420px) {
+  form {
+    padding: 1rem;
   }
 }
