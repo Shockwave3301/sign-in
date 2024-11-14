@@ -1,88 +1,165 @@
 import "./App.css";
-import { FormEvent, useState } from "react";
+import Spinner from "./images/spinner.svg";
+
+import { useState } from "react";
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [emailError, setEmailError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
   const [isPasswordShown, setIsPasswordShown] = useState<boolean>(false);
 
-  const handleSubmit = (e: any): void => {
-    console.log({ e });
+  const [isRecoveryMode, setIsRecoveryMode] = useState<boolean>(false);
+  const [isLetterSent, setIsLetterSent] = useState<boolean>(false);
+
+  const hideEmailError = (): void => setEmailError("");
+  const hidePasswordError = (): void => setPasswordError("");
+  const openPasswordRecoveryMode = (): void => setIsRecoveryMode(true);
+  const openLoginMode = (): void => setIsRecoveryMode(false);
+
+  const togglePasswordVisiblity = (): void => {
+    setIsPasswordShown(!isPasswordShown);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
-    const email = e.target.elements.email.value;
-    const password = e.target.elements.password.value;
+    if (isLoading) {
+      return;
+    }
+
+    const form = e.currentTarget.elements;
+    const emailInput = form.namedItem("email") as HTMLInputElement;
+    const passwordInput = form.namedItem("password") as HTMLInputElement;
+
+    const email = emailInput?.value || "";
+    const password = passwordInput?.value || "";
+
+    if (!/[^ ]+@[^ ]+\.[^ ]+/.test(email)) {
+      setEmailError("Некорректный формат электронной почты");
+      return;
+    }
 
     if (!email) {
       setEmailError("Поле обязательно для заполнения");
       return;
     }
 
-    if (!/.+@.+\..+/.test(email)) {
-      setEmailError("Некорректный формат электронной почты");
-      return;
-    }
-
-    if (!password) {
+    if (!password && !isRecoveryMode) {
       setPasswordError("Поле обязательно для заполнения");
       return;
     }
 
-    alert(`Login attempt.\nLogin: ${email}\nPassword: ${password}`);
+    setIsLoading(true);
+
+    if (isRecoveryMode) {
+      setTimeout(() => {
+        // тут бы был, помимо прочего, запрос отправки письма с инструкцией по восстановлению пароля
+        setIsLetterSent(true);
+        setIsLoading(false);
+      }, 1000);
+    }
+
+    if (!isRecoveryMode) {
+      setTimeout(() => {
+        // а тут был бы сам запрос логина
+        alert(`Логин: ${email}\nПароль: ${password}`);
+        setIsLoading(false);
+      }, 1000);
+    }
   };
 
-  const hideEmailError = (): void => setEmailError("");
-  const hidePasswordError = (): void => setPasswordError("");
+  const getButtonText = (): string => {
+    if (isRecoveryMode && !isLetterSent) {
+      return "ОТПРАВИТЬ ПИСЬМО С ИНСТРУКЦИЕЙ";
+    }
 
-  const togglePasswordVisiblity = (): void => {
-    setIsPasswordShown(!isPasswordShown);
+    if (isRecoveryMode && isLetterSent) {
+      return "ПИСЬМО С ИНСТРУКЦИЕЙ ПО ВОССТАНОВЛЕНИЮ ПАРОЛЯ ОТПРАВЛЕНО";
+    }
+
+    return "ВОЙТИ";
   };
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <h1>Логин</h1>
+      <h1>{isRecoveryMode ? "Восстановление пароля" : "Вход"}</h1>
       <div className="field">
         <input
-          className={emailError && "errorField"}
           type="email"
           name="email"
           id="email"
           autoComplete="email"
+          placeholder="" // пустой селектро нужен для селектора input:not(:placeholder-shown)
+          className={emailError ? "errorField" : undefined}
           aria-required="true"
-          placeholder=""
+          aria-invalid={!!emailError}
+          aria-errormessage={!!emailError ? "email-error" : undefined}
           onFocus={hideEmailError}
         />
         <label htmlFor="email">Почта</label>
-        <span className="fieldErrorText">{emailError}</span>
+        <span className="fieldErrorText" id="email-error">
+          {emailError}
+        </span>
+        {isRecoveryMode && (
+          <button
+            type="button"
+            className="linkButton showPassword"
+            onClick={openLoginMode}
+          >
+            Отмена
+          </button>
+        )}
       </div>
 
-      <div className="field">
-        <input
-          className={passwordError && "errorField"}
-          type={isPasswordShown ? "text" : "password"}
-          name="password"
-          id="password"
-          placeholder=""
-          autoComplete="current-password"
-          aria-required="true"
-          onFocus={hidePasswordError}
-        />
-        <label htmlFor="password">Пароль</label>
-        <span className="fieldErrorText">{passwordError}</span>
-        <button
-          type="button"
-          className="showPassword"
-          onClick={togglePasswordVisiblity}
-        >
-          Показать пароль
-        </button>
-        <a href="" className="forgotPassword">
-          Забыли пароль?
-        </a>
-      </div>
+      {!isRecoveryMode && (
+        <div className="field">
+          <input
+            type={isPasswordShown ? "text" : "password"}
+            name="password"
+            id="password"
+            className={passwordError && "errorField"}
+            autoComplete="current-password"
+            placeholder="" // пустой селектро нужен для селектора input:not(:placeholder-shown)
+            aria-required="true"
+            aria-invalid={!!passwordError}
+            aria-errormessage={!!passwordError ? "password-error" : undefined}
+            onFocus={hidePasswordError}
+          />
+          <label htmlFor="password">Пароль</label>
+          <span className="fieldErrorText" id="password-error">
+            {passwordError}
+          </span>
+          <button
+            type="button"
+            className="linkButton showPassword"
+            onClick={togglePasswordVisiblity}
+          >
+            Показать пароль
+          </button>
+          <button
+            type="button"
+            className="linkButton forgotPassword"
+            onClick={openPasswordRecoveryMode}
+          >
+            Забыли пароль?
+          </button>
+        </div>
+      )}
 
-      <button className="submitButton" type="submit">
-        ВОЙТИ
+      <button
+        className={`submitButton ${
+          isRecoveryMode && isLetterSent ? "recoveryLetterSendButton" : ""
+        }`}
+        type="submit"
+        disabled={isRecoveryMode && isLetterSent} // Чтобы юзер не отправлял миллион запросов на сброс пароля
+      >
+        {isLoading ? (
+          <img src={Spinner} alt="Загрузка..." className="spinner" />
+        ) : (
+          getButtonText()
+        )}
       </button>
     </form>
   );

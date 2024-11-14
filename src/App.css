@@ -4,14 +4,19 @@
   padding: 0;
   font-family: "PT Sans", sans-serif;
 
-  --color-purple: rgb(220, 173, 228);
-  --color-purple-darker: rgb(95, 73, 99);
-  --color-green: rgb(56, 197, 20);
+  --color-lavender: rgb(220, 173, 228);
+  --color-english-violet: rgb(95, 73, 99);
+  --color-yankees-blue: rgb(20, 32, 54);
+  --color-harlequin-green: rgb(56, 197, 20);
 }
 
 main {
   background-color: #10201f;
-  background-image: url("./background_light.webp");
+  background-image: url("./images/background_light.jpeg");
+
+  @supports (background-image: url("./images/background_light.webp")) {
+    background-image: url("./images/background_light.webp");
+  }
   background-position: center;
   background-size: cover;
   height: 100vh;
@@ -59,7 +64,7 @@ input:focus + label,
 input:not(:placeholder-shown):not(:focus) + label {
   top: -25%;
   font-size: 0.8rem;
-  color: var(--color-green);
+  color: var(--color-harlequin-green);
   background-color: white;
   padding: 0px 4px;
   transition: 0.3s;
@@ -79,13 +84,13 @@ input:hover {
 }
 
 input:focus {
-  outline: 2px solid var(--color-green);
+  outline: 2px solid var(--color-harlequin-green);
 }
 
 input.errorField {
   border: 1px solid red;
   color: red;
-  background: url("./icon-error.png");
+  background: url("./images/icon-error.png");
   background-repeat: no-repeat;
   background-position: 98%;
   background-size: 2rem;
@@ -100,11 +105,11 @@ input.errorField + label {
   cursor: pointer;
   width: 100%;
   height: 2.4rem;
-  color: var(--color-green);
+  color: var(--color-harlequin-green);
   border-radius: 4px;
   background-color: transparent;
   font-weight: 700;
-  border: 1px solid var(--color-green);
+  border: 1px solid var(--color-harlequin-green);
 }
 
 .submitButton:active {
@@ -113,7 +118,18 @@ input.errorField + label {
 }
 
 .submitButton:focus {
-  outline: 2px solid var(--color-green);
+  outline: 2px solid var(--color-harlequin-green);
+}
+
+.submitButton.recoveryLetterSendButton {
+  cursor: default;
+  color: var(--color-harlequin-green);
+  border: 1px solid var(--color-harlequin-green);
+}
+
+.spinner {
+  padding: 0.3em;
+  filter: none;
 }
 
 .fieldErrorText {
@@ -127,24 +143,27 @@ input.errorField + label {
   transition: 0.3s;
 }
 
-.showPassword {
+.linkButton {
   background-color: transparent;
-  outline: none;
+  outline-color: transparent;
   border: none;
   cursor: pointer;
-  color: var(--color-green);
+  color: var(--color-harlequin-green);
   position: absolute;
-  left: 0;
-  bottom: -50%;
   font-size: 1rem;
 }
 
-.showPassword:focus {
+.linkButton:focus {
   text-decoration: underline;
 }
 
-.showPassword:hover {
+.linkButton:hover {
   text-decoration: underline;
+}
+
+.showPassword {
+  left: 0;
+  bottom: -50%;
 }
 
 .forgotPassword {
@@ -152,7 +171,7 @@ input.errorField + label {
   right: 0;
   bottom: -50%;
   font-size: 1rem;
-  color: var(--color-green);
+  color: var(--color-harlequin-green);
   text-decoration: none;
 }
 
@@ -167,51 +186,60 @@ input.errorField + label {
 
 @media (prefers-color-scheme: dark) {
   main {
-    background-color: rgb(20, 32, 54);
-    background-image: url("./background_dark.webp");
+    background-color: var(--color-yankees-blue);
+    background-image: url("./images/background_dark.jpeg");
+
+    @supports (background-image: url("./images/background_dark.webp")) {
+      background-image: url("./images/background_dark.webp");
+    }
   }
 
   form {
-    background-color: rgb(20, 32, 54);
+    background-color: var(--color-yankees-blue);
   }
 
   input:focus + label,
   input:not(:placeholder-shown):not(:focus) + label {
-    color: var(--color-purple);
-    background-color: rgb(20, 32, 54);
+    color: var(--color-lavender);
+    background-color: var(--color-yankees-blue);
   }
 
   input:focus {
-    outline: 2px solid var(--color-purple);
+    outline: 2px solid var(--color-lavender);
   }
 
   .submitButton {
-    color: var(--color-purple);
-    border: 1px solid var(--color-purple);
+    color: var(--color-lavender);
+    border: 1px solid var(--color-lavender);
   }
 
   .submitButton:focus {
-    outline: 2px solid var(--color-purple);
+    outline: 2px solid var(--color-lavender);
   }
 
   .showPassword {
-    color: var(--color-purple);
+    color: var(--color-lavender);
   }
 
   input {
-    border-color: var(--color-purple-darker);
-    color: var(--color-purple);
+    border-color: var(--color-english-violet);
+    color: var(--color-lavender);
   }
 
   h1 {
-    color: var(--color-purple);
+    color: var(--color-lavender);
   }
 
   .fieldErrorText {
-    background-color: rgb(20, 32, 54);
+    background-color: var(--color-yankees-blue);
   }
 
   .forgotPassword {
-    color: var(--color-purple);
+    color: var(--color-lavender);
+  }
+
+  .spinner {
+    padding: 0.3em;
+    filter: invert(1);
   }
 }
