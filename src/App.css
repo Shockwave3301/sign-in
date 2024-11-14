@@ -175,7 +175,7 @@ input.errorField + label {
   text-decoration: none;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 768px) {
   form {
     border: none;
     border-radius: 0;
